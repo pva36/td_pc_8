@@ -1,16 +1,19 @@
 const { Router } = require("express");
 const bootcampController = require("../controllers/bootcamp.controller");
+const { verifyToken } = require("../middleware");
 
 const bootcampRouter = Router();
 
+// public access
 bootcampRouter.get("/", bootcampController.findAll);
 
-bootcampRouter.get("/:id", bootcampController.findById);
+// authentication required
+bootcampRouter.get("/:id", verifyToken, bootcampController.findById);
 
-bootcampRouter.post("/", bootcampController.createBootcamp);
+bootcampRouter.post("/", verifyToken, bootcampController.createBootcamp);
 
 // TODO:
-bootcampRouter.post("/adduser", (req, res) =>
+bootcampRouter.post("/adduser", verifyToken, (req, res) =>
   res.status(501).send("post on /api/bootcamp/adduser"),
 );
 

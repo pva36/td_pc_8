@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define("users", {
     firstName: {
@@ -36,8 +38,11 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     password: {
-      type: DataTypes.STRING,
-      // TODO
+      type: DataTypes.String,
+      validate: {
+        notEmpty: true,
+        msg: "la contraseña es necesaria",
+      },
     },
   });
 
