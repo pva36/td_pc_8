@@ -15,4 +15,4 @@ userRouter.put("/:id", userController.updateUserById);
 
 userRouter.delete("/:id", userController.deleteUserById);
 
-module.expots = userRouter;
+module.exports = userRouter;

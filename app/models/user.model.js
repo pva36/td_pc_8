@@ -38,10 +38,12 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     password: {
-      type: DataTypes.String,
+      type: DataTypes.STRING,
       validate: {
-        notEmpty: true,
-        msg: "la contraseña es necesaria",
+        notEmpty: {
+          args: true,
+          msg: "la contraseña es necesaria",
+        },
       },
     },
   });

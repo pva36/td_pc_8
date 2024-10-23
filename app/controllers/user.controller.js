@@ -4,7 +4,8 @@ const User = db.users;
 const Bootcamp = db.bootcamps;
 
 // Crear y Guardar Usuarios
-exports.createUser = (user) => {
+exports.createUser = (req, res) => {
+  let user = req.body;
   return User.create({
     firstName: user.firstName,
     lastName: user.lastName,
@@ -15,10 +16,13 @@ exports.createUser = (user) => {
       console.log(
         `>> Se ha creado el usuario: ${JSON.stringify(user, null, 4)}`,
       );
-      return user;
+      return res.status(201).json(user);
     })
     .catch((err) => {
       console.log(`>> Error al crear el usuario ${err}`);
+      return res
+        .status(400)
+        .json({ message: `Error al crear el usuario: ${err.message}` });
     });
 };
 
