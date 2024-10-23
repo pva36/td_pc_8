@@ -69,9 +69,9 @@ exports.signIn = async (req, res) => {
   }
 };
 
-// TODO: acomodar
 // obtener los bootcamp de un usuario
-exports.findUserById = (userId) => {
+exports.findUserById = (req, res) => {
+  const userId = req.params.id;
   return User.findByPk(userId, {
     include: [
       {
@@ -85,16 +85,18 @@ exports.findUserById = (userId) => {
     ],
   })
     .then((users) => {
-      return users;
+      return res.status(400).json(users);
     })
     .catch((err) => {
       console.log(`>> Error mientras se encontraba los usuarios: ${err}`);
+      return res.status(500).json({
+        message: `Error mientras se encontraba los usuarios ${err.message}`,
+      });
     });
 };
 
-// TODO: acomodar
 // obtener todos los Usuarios incluyendo los bootcamp
-exports.findAll = () => {
+exports.findAll = (req, res) => {
   return User.findAll({
     include: [
       {
@@ -106,14 +108,24 @@ exports.findAll = () => {
         },
       },
     ],
-  }).then((users) => {
-    return users;
-  });
+  })
+    .then((users) => {
+      return res.status(400).json(users);
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).json({
+        message: `Error mientras se encontraba los datos del bootcamp: ${err.message}`,
+      });
+    });
 };
 
 // TODO: acomodar
 // Actualizar usuarios
-exports.updateUserById = (userId, fName, lName) => {
+exports.updateUserById = (req, res) => {
+  const userId = req.params.id;
+  const fName = req.body.firstName;
+  const lName = req.body.lastName;
   return User.update(
     {
       firstName: fName,
@@ -129,16 +141,20 @@ exports.updateUserById = (userId, fName, lName) => {
       console.log(
         `>> Se ha actualizado el usuario: ${JSON.stringify(user, null, 4)}`,
       );
-      return user;
+      return res.status(400).json(user);
     })
     .catch((err) => {
       console.log(`>> Error mientras se actualizaba el usuario: ${err}`);
+      return res.status(500).json({
+        message: `Error mientras se actualizaba el usuario: ${err.message}`,
+      });
     });
 };
 
 // TODO: acomodar
 // Eliminar usuarios
-exports.deleteUserById = (userId) => {
+exports.deleteUserById = (req, res) => {
+  const userId = req.params.id;
   return User.destroy({
     where: {
       id: userId,
@@ -148,9 +164,12 @@ exports.deleteUserById = (userId) => {
       console.log(
         `>> Se ha eliminado el usuario: ${JSON.stringify(user, null, 4)}`,
       );
-      return user;
+      return res.status(400).json(user);
     })
     .catch((err) => {
       console.log(`>> Error mientras se eliminaba el usuario: ${err}`);
+      return res.status(500).json({
+        message: "Error mientras se eliminaba el usuario: ${err.message}",
+      });
     });
 };

@@ -14,8 +14,6 @@ const verifyToken = async (req, res, next) => {
     if (err) {
       return res.status(403).json({ message: "El token es invalido" });
     } else {
-      // where it comes from?
-      console.log(jwtDecoded);
       req.user = jwtDecoded;
       next();
     }
