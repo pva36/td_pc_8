@@ -5,14 +5,6 @@ const routes = require("./app/routes");
 // express
 const app = express();
 
-// jwt
-const jwt = require("jsonwebtoken");
-
-// passport
-// const passport = require("passport");
-// const jwtStrategy = require("passport-jwt").Strategy;
-// passport.use(jwtStrategy);
-
 /**
  * Sync the DB (should I consider this?)
  */
