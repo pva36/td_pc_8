@@ -3,8 +3,6 @@ const userController = require("../controllers/user.controller");
 
 const signInRouter = Router();
 
-signInRouter.post("/", (req, res) => {
-  res.send("post in /api/signup");
-});
+signInRouter.post("/", userController.signIn);
 
 module.exports = signInRouter;
