@@ -8,13 +8,12 @@ const bootcampRouter = Router();
 bootcampRouter.get("/", bootcampController.findAll);
 
 // authentication required
-bootcampRouter.get("/:id", verifyToken, bootcampController.findById);
+bootcampRouter.use(verifyToken);
 
-bootcampRouter.post("/", verifyToken, bootcampController.createBootcamp);
+bootcampRouter.get("/:id", bootcampController.findById);
 
-// TODO:
-bootcampRouter.post("/adduser", verifyToken, (req, res) =>
-  res.status(501).send("post on /api/bootcamp/adduser"),
-);
+bootcampRouter.post("/", bootcampController.createBootcamp);
+
+bootcampRouter.post("/adduser", bootcampController.addUser);
 
 module.exports = bootcampRouter;

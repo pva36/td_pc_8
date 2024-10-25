@@ -61,11 +61,17 @@ exports.signIn = async (req, res) => {
           return res.json({ message: "Problema interno, intente más tarde" });
         } else {
           return res.status(200).json({
-            token,
+            id: userDb.id,
+            firstName: userDb.firstName,
+            lastName: userDb.lastName,
+            email: userDb.email,
+            accessToken: token,
           });
         }
       },
     );
+  } else {
+    return res.status(400).json({ message: "Usuario no registrado" });
   }
 };
 
@@ -137,6 +143,13 @@ exports.updateUserById = (req, res) => {
       },
     },
   )
+    .then(() => {
+      return User.findOne({
+        where: {
+          id: userId,
+        },
+      });
+    })
     .then((user) => {
       console.log(
         `>> Se ha actualizado el usuario: ${JSON.stringify(user, null, 4)}`,
@@ -164,7 +177,9 @@ exports.deleteUserById = (req, res) => {
       console.log(
         `>> Se ha eliminado el usuario: ${JSON.stringify(user, null, 4)}`,
       );
-      return res.status(400).json(user);
+      return res
+        .status(400)
+        .json({ message: `Se ha eliminado el usuario con id ${userId}` });
     })
     .catch((err) => {
       console.log(`>> Error mientras se eliminaba el usuario: ${err}`);
