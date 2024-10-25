@@ -241,7 +241,24 @@ printResponse(
 )
 
 # list bootcamp 1 with users
+print("List bootcamp 1 with users")
+printResponse(
+    requests.get(
+        "http://localhost:3000/api/bootcamp/1",
+        headers={"Authorization": accessToken},
+    )
+)
 
 # list all bootcamps with their users
+print("list all bootcamps with their users")
+printResponse(
+    requests.get(
+        "http://localhost:3000/api/bootcamp",
+        headers={"Authorization": accessToken},
+    )
+)
 
 # list user by id with bootcamps
+print("List user with id 2 and bootcamps")
+printResponse(requests.get("http://localhost:3000/api/user/2",
+                           headers={"Authorization": accessToken}))
