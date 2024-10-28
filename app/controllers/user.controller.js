@@ -30,7 +30,7 @@ exports.createUser = (req, res) => {
         .catch((err) => {
           console.log(`>> Error al crear el usuario ${err}`);
           return res
-            .status(400)
+            .status(500)
             .json({ message: `Error al crear el usuario: ${err.message}` });
         });
     }
@@ -58,7 +58,9 @@ exports.signIn = async (req, res) => {
       (err, token) => {
         if (err) {
           console.error(err);
-          return res.json({ message: "Problema interno, intente más tarde" });
+          return res
+            .status(500)
+            .json({ message: "Problema interno, intente más tarde" });
         } else {
           return res.status(200).json({
             id: userDb.id,
@@ -71,7 +73,7 @@ exports.signIn = async (req, res) => {
       },
     );
   } else {
-    return res.status(400).json({ message: "Usuario no registrado" });
+    return res.status(404).json({ message: "Usuario no registrado" });
   }
 };
 
@@ -91,7 +93,7 @@ exports.findUserById = (req, res) => {
     ],
   })
     .then((users) => {
-      return res.status(400).json(users);
+      return res.status(200).json(users);
     })
     .catch((err) => {
       console.log(`>> Error mientras se encontraba los usuarios: ${err}`);
@@ -116,7 +118,7 @@ exports.findAll = (req, res) => {
     ],
   })
     .then((users) => {
-      return res.status(400).json(users);
+      return res.status(200).json(users);
     })
     .catch((err) => {
       console.error(err);
@@ -154,7 +156,7 @@ exports.updateUserById = (req, res) => {
       console.log(
         `>> Se ha actualizado el usuario: ${JSON.stringify(user, null, 4)}`,
       );
-      return res.status(400).json(user);
+      return res.status(200).json(user);
     })
     .catch((err) => {
       console.log(`>> Error mientras se actualizaba el usuario: ${err}`);
@@ -178,7 +180,7 @@ exports.deleteUserById = (req, res) => {
         `>> Se ha eliminado el usuario: ${JSON.stringify(user, null, 4)}`,
       );
       return res
-        .status(400)
+        .status(200)
         .json({ message: `Se ha eliminado el usuario con id ${userId}` });
     })
     .catch((err) => {

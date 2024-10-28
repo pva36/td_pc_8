@@ -15,7 +15,7 @@ exports.createBootcamp = (req, res) => {
     req.body,
   )
     .then((bootcamp) => {
-      return res.json(bootcamp);
+      return res.status(201).json(bootcamp);
       // console.log(
       //   `>> Creado el bootcamp: ${JSON.stringify(bootcamp, null, 4)}`,
       // );
@@ -38,12 +38,12 @@ exports.addUser = (req, res) => {
     .then((bootcamp) => {
       if (!bootcamp) {
         console.log("No se encontro el Bootcamp!");
-        return res.json("No se encontro el Bootcamp!");
+        return res.status(404).json("No se encontro el Bootcamp!");
       }
       return User.findByPk(userId).then((user) => {
         if (!user) {
           console.log("Usuario no encontrado!");
-          return res.json("Usuario no encontrado!");
+          return res.status(404).json("Usuario no encontrado!");
         }
         bootcamp.addUser(user);
         console.log("***************************");
@@ -51,7 +51,7 @@ exports.addUser = (req, res) => {
           ` Agregado el usuario id=${user.id} al bootcamp con id=${bootcamp.id}`,
         );
         console.log("***************************");
-        return res.status(202).json({
+        return res.status(200).json({
           message: `Agregado el usuario id=${user.id} al bootcamp con id=${bootcamp.id}`,
         });
       });
@@ -80,7 +80,7 @@ exports.findById = (req, res) => {
     ],
   })
     .then((bootcamp) => {
-      return res.json(bootcamp);
+      return res.status(200).json(bootcamp);
     })
     .catch((err) => {
       console.log(`>> Error mientras se encontraba el bootcamp: ${err}`);

@@ -38,6 +38,14 @@ app.use("/api/user", routes.userRouter);
 
 app.use("/api/bootcamp", routes.bootcampRouter);
 
+// catch syntax errors inside the request
+app.use((err, req, res, next) => {
+  if (err instanceof SyntaxError) {
+    res.status(500).json({ message: `INVALID JSON: ${err.message}` });
+  }
+  next();
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}!`);
